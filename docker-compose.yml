@@ -1,0 +1,29 @@
+version: "3.9"
+
+volumes:
+  db_data: {}
+
+services:
+  system:
+    restart: always
+    image: ubuntu_php_env:latest
+    command: tail -f /dev/null
+    volumes:
+      - ./projects:/home/user/projects
+    ports:
+      - "8002:8002"
+
+  db:
+    image: mysql:8.0.28
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_DATABASE: app
+    ports:
+      - "3306:3315"
+    expose:
+      - 3306
